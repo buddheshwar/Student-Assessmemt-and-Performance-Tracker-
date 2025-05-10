@@ -2,17 +2,31 @@ import React from 'react'
 import formAdminImg from '../../assets/img/Admin.png'
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext/AuthContext';
 
 const AdminLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const currentEmail = 'admin@gmail.com';
+    const currentPassword = 'Pass123';
+    const navigate = useNavigate();
+   const {setUser} = useAuth();
 
     const handleSubmit = (e) => {
         e.preventDefault(); // Prevent default form reload
 
         if (email.trim() === '' || password.trim() === '') {
             alert('Email and Password are required.');
+            return;
+        }
+        else if (email === currentEmail.toLowerCase() && password ===currentPassword){
+            alert('Login Successfully')
+            setUser({role :'admin'})
+            navigate('/Dashboard')
+        }
+        else {
+            alert('Enter a Valid Details');
             return;
         }
     };
